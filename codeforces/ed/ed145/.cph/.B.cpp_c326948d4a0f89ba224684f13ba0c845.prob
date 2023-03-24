@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"/home/pavan/dev/competitive-coding/codeforces/ed/ed145/B.cpp","tests":[{"id":1679586862884,"input":"7\n1\n3\n5\n8\n13\n18\n975461057789971042","output":"0\n1\n2\n2\n4\n4\n987654321"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/pavan/dev/competitive-coding/codeforces/ed/ed145/B.cpp","group":"local","local":true}
