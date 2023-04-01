@@ -1,4 +1,3 @@
-// Monsters (easy version)
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,34 +22,35 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    cin>>n;
+    vector<string> a(n);
+    map<string, int> ma;
+    vector<string> b(n);
+    map<string, int> mb;
+    rep(i,n) {
+        cin>>a[i];
+        ma[a[i]]++;
     }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    rep(i,n) {
+        cin>>b[i];
+        mb[b[i]]++;
+    }
+    
+    int res =0;
+    for (auto it = ma.begin(); it != ma.end(); it++) {
+        if (mb.find(it->first) != mb.end()) {
+            res+= min(it->second, mb[it->first]);
         }
     }
-    cout << res <<endl;
+    cout << res << endl;
+
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-
-    int t;
-    cin >>t;
-    while (t-->0) {
-        solve();
-    }
+    solve();
     return 0;
 }
 

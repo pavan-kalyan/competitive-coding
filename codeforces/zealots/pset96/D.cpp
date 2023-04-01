@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Minimize the Thickness
+// 1:20-1:46
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,22 +24,43 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
+    cin >> n;
     vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
+    rep(i, n) cin >> a[i];
+    vl pre(n);
+    pre[0] = a[0];
+    for(int i=1;i<n;i++) pre[i] = pre[i-1] + a[i];
+    // cout << pre <<endl;
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    int res = INT_MAX;
+    rep(i, n) {
+        bool valid = true;
+        ll sum = pre[i];
+        ll offset = sum;
+        int len = i + 1;
+        int start = i+1;
+        // cout << "searching for " << sum << " from " << i << " to " << n << endl;
+        int j = i+1;
+        for (j=i+1;j<n;j++) {
+            if (pre[j] - offset > sum) {
+                valid = false;
+                break;
+            } else if (pre[j] - offset == sum) {
+                offset += sum;
+                len = max(len, j - start + 1);
+                start = j + 1;
+            }
+        }
+        // cout << "offset " << offset <<  endl;
+        if (j == n && pre[j-1] - (offset - sum) != sum) valid = false;
+        
+        if (valid) {
+            // cout << "valid for " << sum << " with len " << len << endl;
+            res = min(res, len);
         }
     }
-    cout << res <<endl;
+    cout << res << endl;
+
 }
 
 int main() {

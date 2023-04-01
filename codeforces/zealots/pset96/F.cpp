@@ -1,4 +1,6 @@
-// Monsters (easy version)
+// Minimize Distance
+// 3:40-4:30
+// I used the editorial to solve this problem
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +24,52 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    int n,k;
+    cin >> n >> k;
+    vi l;
+    vi r;
+    rep(i,n) {
+        int t ;
+        cin >> t;
+        if (t < 0) {
+            l.pb(-t);
+        } else {
+            r.pb(t);
         }
     }
-    cout << res <<endl;
+    sort(r.begin(), r.end(), greater<int>());
+    ll cnt = 0;
+    ll dist = 0;
+    for (int i=0;i<r.size();i++) {
+        cnt++;
+        if (cnt == k) {
+            dist += 2*r[i-cnt+1];
+            cnt = 0;
+        }
+    }
+    if (cnt > 0 && !r.empty()) {
+        dist += 2*r[r.size()-1 - cnt + 1];
+    }
+    cnt = 0;
+    sort(l.begin(), l.end(), greater<int>());
+    for (int i=0;i<l.size();i++) {
+        cnt++;
+        if (cnt == k) {
+            dist += 2*l[i-cnt+1];
+            cnt = 0;
+        }
+    }
+    if (cnt > 0 && !l.empty()) {
+        dist += 2*l[l.size()-1 - cnt + 1];
+    }
+
+    if (!l.empty() && !r.empty()) {
+        cout << dist - max(r[0], l[0]) << endl;
+    } else if (!r.empty()) {
+        cout << dist - r[0] << endl;
+    } else {
+        cout << dist - l[0] << endl;
+    }
 }
 
 int main() {

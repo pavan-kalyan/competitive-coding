@@ -1,4 +1,3 @@
-// Monsters (easy version)
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +21,48 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
+    int n, k;
+    cin >> n >>k;
+    vector<pii> a(n);
     rep(i, n) {
-        cin >> a[i];
+        int h;
+        cin >> h;
+        a[i] = mp(h, 0);
     }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    rep(i, n) {
+        int p;
+        cin >> p;
+        a[i].second = p;
+    }
+    
+    sort(a.begin(), a.end(), [](const pii& a, const pii& b) {
+        return a.second < b.second;
+    });
+    
+    int total_damage = k;
+    for (int i=0;i<n;) {
+        // cout << "total damage is " << total_damage <<endl;
+        
+        if (i < n && k <=0) {
+            cout << "NO" <<endl;
+            return;
+        }
+        
+        while (i<n && total_damage >= a[i].first) {
+            i++;
+        }
+        // cout << "after killing " << i << endl;
+        if (i==n && k > 0) {
+            cout << "YES" <<endl;
+            return;
+        } else {
+            k = k - a[i].second;
+            // cout << " k is now " << k <<endl;
+            total_damage += k;
         }
     }
-    cout << res <<endl;
+    cout << "NO" <<endl;
+
 }
 
 int main() {

@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Years
+// 1:30-1:50
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,34 +24,47 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    cin >> n;
+    vector<pii> a;
+    
+    for (int i = 0; i < n; ++i) {
+        int b,d;
+        cin >> b >>d;
+        a.push_back({b,0});
+        a.push_back({d-1,1});
     }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    sort(a.begin(), a.end(), [](pii x, pii y) {
+            if (x.first == y.first) {
+                return x.second < y.second;
+            }
+            return x.first < y.first;
+    });
+    // rep(i,2*n) {
+    //     cout << a[i].first << " " << a[i].second << endl;
+    // }
+    
+    int maxPop = 0;
+    int pop=0;
+    int maxYear = 0;
+    for (int i=0;i<2*n;i++) {
+        if (a[i].second == 0) {
+            pop++;
+        } else {
+            pop--;
+        }
+        if (pop > maxPop) {
+            maxPop = pop;
+            maxYear = a[i].first;
         }
     }
-    cout << res <<endl;
+    cout << maxYear << " " << maxPop << endl;
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-
-    int t;
-    cin >>t;
-    while (t-->0) {
-        solve();
-    }
+    solve();
     return 0;
 }
 

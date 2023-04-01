@@ -1,0 +1,1 @@
+{"name":"Local: E","url":"/home/pavan/dev/competitive-coding/codeforces/zealots/pset92/E.cpp","tests":[{"id":1680018452533,"input":"5\n1\n1\n2\n01\n3\n100\n4\n1001\n5\n11111","output":"1\n3\n4\n8\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/pavan/dev/competitive-coding/codeforces/zealots/pset92/E.cpp","group":"local","local":true}

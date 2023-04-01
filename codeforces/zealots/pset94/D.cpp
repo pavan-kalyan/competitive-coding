@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Negatives and Positives
+// 3:30-4:30, for DP
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,22 +24,25 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    cin >> n;
+    vl a(n);
+    rep(i, n) cin >> a[i];
+    
+    vector<vector<ll>> dp(2, vector<ll>(n+1));
+    dp[0][0] = a[0];
+    dp[0][1] = a[1] + a[0];
+    
+    dp[1][0] = -1*a[0];
+    dp[1][1] = -1*a[0] + -1*a[1];
+    for (int i=2;i<n;i++) {
+        dp[0][i] = max({dp[0][i-1] + a[i], dp[1][i-1] + a[i]});
+        dp[1][i] = max({dp[0][i-1] - 2*a[i-1] - a[i], dp[1][i-1] + 2*a[i-1] - a[i]});
     }
-    sort(a.begin(), a.end());
+    // cout << a <<endl;
+    // cout << dp[0] << endl;
+    // cout << dp[1] << endl;
+    cout << max(dp[0][n-1], dp[1][n-1]) << endl;
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
-        }
-    }
-    cout << res <<endl;
 }
 
 int main() {

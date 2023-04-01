@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// No More Inversions
+// I used the editorial to solve this problem
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -14,7 +15,7 @@ typedef pair<int, int> pii;
 #define pb push_back
 
 template <class T>
-ostream & operator << (ostream & os, vector <T> const& x) { os << "[ "; for(auto& y : x) os << y << " "; return os << "]"; }
+ostream & operator << (ostream & os, vector <T> const& x) { os << ""; for(auto& y : x) os << y << " "; return os << ""; }
 
 struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4a7c15; x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9; x = (x ^ (x >> 27)) * 0x94d049bb133111eb; return x ^ (x >> 31); }
     size_t operator()(uint64_t x) const { static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count(); return splitmix64(x + FIXED_RANDOM); } };
@@ -22,23 +23,33 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    int n, k;
+    cin >> n >>k;
+    
+    vi a;
+    rep(i, min(k, n)) {
+        a.pb(i+1);
     }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    for (int i=k-1;i>=1;i--) {
+        if (a.size() >=n) break;
+        a.pb(i);
+    }
+    // cout << a <<endl;
+    
+    // This greedy construction always works.
+    unordered_map<int, int> m;
+    vi p;
+    bck(i, a.size()) {
+        if  (m.find(a[i]) == m.end()) {
+            p.pb(a[i]);
+            m[a[i]]++;
+        } else {
+            //skip
         }
     }
-    cout << res <<endl;
+    reverse(p.begin(), p.end());
+    cout << p << endl;
+
 }
 
 int main() {

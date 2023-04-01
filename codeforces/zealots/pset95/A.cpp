@@ -1,4 +1,4 @@
-// Monsters (easy version)
+// Stable Arrangement of Rocks
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +22,27 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    int n,k;
+    cin >> n >> k;
+    
+    if (k > (n + 1) / 2) {
+        cout << -1 << endl;
+        return;
     }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    
+    char a[n][n];
+    rep(i,n) {
+        rep(j,n) {
+            a[i][j] = '.';
         }
     }
-    cout << res <<endl;
+    for (int i = 0; i < k; i++) a[2 * i][2 * i] = 'R';
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<n;j++) {
+            cout << a[i][j];
+        }
+        cout << endl;
+    }
 }
 
 int main() {

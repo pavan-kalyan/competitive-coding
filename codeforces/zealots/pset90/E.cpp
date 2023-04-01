@@ -1,4 +1,4 @@
-// Monsters (easy version)
+// Make Equal With Mod
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,22 +23,31 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
-    vi a(n);
+    cin >> n;
+    vector<int> a(n);
+    rep(i, n) cin >> a[i];
+    
+    bool noOnes = true;
     rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+        if (a[i] == 1) {
+            noOnes = false;
+            break;
         }
     }
-    cout << res <<endl;
+    if (noOnes) {
+        cout << "YES" << endl;
+        return;
+    }
+
+    sort(a.begin(), a.end());
+    // check if any adjacent elements differ by 1
+    for (int i=0;i<n-1;i++) {
+        if (a[i+1] - a[i] == 1 && !noOnes) {
+            cout << "NO" << endl;
+            return;
+        }
+    }
+    cout << "YES" << endl;
 }
 
 int main() {

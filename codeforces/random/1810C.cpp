@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Make It Permutation
+// 11:52 - 12:53
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +23,41 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
+    ll n,c,d;
+    cin >> n >> c >> d;
+    vl a(n);
+    rep(i, n) cin >> a[i];
     sort(a.begin(), a.end());
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    ll minSum = LLONG_MAX;
+    vl mins;
+    ll cSum = 0;
+    ll j = 1;
+    for (ll i=0;i<n;i++) {
+        // cout << "i: " << i << " j: " << j << " a[i]: " << a[i] << " cSum: " << cSum << " minSum: " << minSum << endl;
+        if (a[i] < j) {
+            // cost of making everything a permutation
+            minSum = min(minSum, cSum + c + c*(n-i-1));
+            // the cumulative sum of making 1 to j a permutation
+            cSum += c;
+        } else if (a[i] > j) {
+            // case 1
+            minSum = min(minSum, cSum + d + c*(n-i));
+            // case 2
+            cSum += (a[i]-j)*d;
+            minSum = min(minSum, cSum + c*(n-i));
+            j = a[i];
+            if (a[i] == j) {
+                minSum = min(minSum, cSum + c * (n - i - 1));
+                j++;
+            }
+        } else {
+            // cost of making everything a permutation
+            minSum = min(minSum, cSum + c*(n-i-1));
+            j++;
         }
     }
-    cout << res <<endl;
+     cout << minSum <<endl;
 }
 
 int main() {

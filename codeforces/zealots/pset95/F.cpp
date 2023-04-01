@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// White-Black Balanced Subtrees
+// 11:05
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -21,24 +22,41 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 /* -------------------------- SOLUTION ---------------------*/
 
+struct node {
+    int val;
+    char color;
+    node* left;
+    node* right;
+    node(int x, char color) {
+        val = x;
+        color = color;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+int res = 0;
 void solve() {
     int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
+    cin >> n;
+    vi parents(n-1);
+    rep(i, n-1) cin >> parents[i];
+    string colors;
+    cin >> colors;
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    // construct tree from parents array
+    vector<node*> nodes(n);
+    rep(i, n) {
+        nodes[i] = new node(i, colors[i]);
+    }
+    rep(i, n-1) {
+        if (parents[i] < i) {
+            nodes[parents[i]]->left = nodes[i];
+        } else {
+            nodes[parents[i]]->right = nodes[i];
         }
     }
-    cout << res <<endl;
+    
 }
 
 int main() {

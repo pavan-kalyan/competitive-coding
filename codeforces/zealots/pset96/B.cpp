@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// AvtoBus
+// I used the editorial to solve this problem
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +23,18 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
+    ll n;
+    cin >> n;
+ 
+    if(n%2==1 || n==2){
+        cout << -1 << endl;
+        return;
     }
-    sort(a.begin(), a.end());
+    n/=2;
+    if(n%3==0) cout << n/3 << " ";
+    else cout << n/3+1 <<  " ";
+    cout << n/2 << endl;
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
-        }
-    }
-    cout << res <<endl;
 }
 
 int main() {

@@ -1,4 +1,3 @@
-// Monsters (easy version)
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,35 +21,34 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
-    vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
-
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    
+    vi a  = {4, 3, 8, 8, 1};
+    vi b  = {3, 4, 8, 2};
+    int n = a.size();
+    int m = b.size();
+    
+    int dp[n+1][m+1];
+    
+    for (int i=0;i<=n;i++) {
+        for (int j=0;j<=m;j++) {
+            dp[i][j] = INT_MAX;
+             if (j==0) dp[i][j] = 0;
         }
     }
-    cout << res <<endl;
+    dp[1][1] = abs(a[0] - b[0]);
+    for (int i=1;i<=n;i++) {
+        for (int j=1;j<=m;j++) {
+            dp[i][j] = min({dp[i-1][j], dp[i][j-1] + abs(a[i-1] - b[j-1])});
+        }
+    }
+    cout << dp[n][m] <<endl;
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-
-    int t;
-    cin >>t;
-    while (t-->0) {
-        solve();
-    }
+    solve();
     return 0;
 }
 

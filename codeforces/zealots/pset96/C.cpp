@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Luke is a Foodie
+// 1:01 - 1:15
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -22,23 +23,27 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 /* -------------------------- SOLUTION ---------------------*/
 
 void solve() {
-    int n;
-    cin >>n;
+    int n, x;
+    cin >> n >> x;
     vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
-
+    rep(i, n) cin >> a[i];
+    
+    int l = a[0] - x;
+    int r = a[0] + x;
     ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    for (int i = 1; i < n; i++) {
+        if ((l < a[i] -x && r < a[i] - x) || (l > a[i] + x && r > a[i] + x)) {
+            res++;
+            l = a[i] - x;
+            r = a[i] + x;
         }
+
+        l = max(l, a[i] - x);
+        r = min(r, a[i] + x);
     }
+
     cout << res <<endl;
+
 }
 
 int main() {

@@ -1,4 +1,5 @@
-// Monsters (easy version)
+// Delete Two Elements
+// 1:48-2:20
 #include<bits/stdc++.h>
 #include<iostream>
 #include<vector>
@@ -23,22 +24,31 @@ struct custom_hash { static uint64_t splitmix64(uint64_t x) { x += 0x9e3779b97f4
 
 void solve() {
     int n;
-    cin >>n;
+    cin >> n;
     vi a(n);
-    rep(i, n) {
-        cin >> a[i];
-    }
-    sort(a.begin(), a.end());
+    rep(i, n) cin >> a[i];
 
-    ll res = 0;
-    int cnt = 1;
-    for (int i=0;i<n;i++){
-        if (a[i] >= cnt) {
-            res += a[i] - cnt;
-            cnt++;
+    ll sum = 0;
+    rep(i, n) sum += a[i];
+    // cout << sum <<endl;
+    double avg = (double)sum / n;
+    // cout << avg << endl;
+    double newSum = avg*(n-2);
+    // cout << newSum << endl;
+    newSum = sum - newSum;
+    // cout << newSum << endl;
+
+    map<double, ll> m;
+    rep(i, n) m[a[i]]++;
+    ll ans = 0;
+    rep(i, n) {
+        if (m.find(newSum - a[i]) != m.end()) {
+            ans += m[newSum - a[i]];
         }
+        if (newSum - a[i] == a[i]) ans--;
     }
-    cout << res <<endl;
+    cout << ans/2 << endl;
+
 }
 
 int main() {
